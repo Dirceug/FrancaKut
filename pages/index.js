@@ -121,7 +121,7 @@ export default function Home() {
               Comunidades ({comunidades.length})
             </h2>
             <ul>
-              {comunidades.slice(0, 6).map((itemAtual) => {
+              {comunidades.slice(comunidades.length-6, comunidades.length).map((itemAtual) => {
                     return (
                       <li key={itemAtual.id}>
                         <a href={`/users/${itemAtual.title}`} key={itemAtual.title}>
