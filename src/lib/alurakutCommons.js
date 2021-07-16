@@ -312,6 +312,15 @@ OrkutNostalgicIconSet.List = styled.ul`
         margin-right: 7px;
       }
     }
+    .OrkutNostalgicIconSet__url {
+      min-width: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      .OrkutNostalgicIconSet__iconSample {
+        margin-right: 7px;
+      }
+    }
   }
 `;
 

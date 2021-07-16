@@ -23,28 +23,85 @@ function ProfileSideBar (propriedades) {
   </Box>)
 }
 
+function ProfileRelationsBox (propriedades) {
+  return (
+  <ProfileRelationsBoxWrapper>
+    <h2 className="smallTitle">
+      {propriedades.title} ({propriedades.itens.length})
+    </h2>
+    <ul>
+      {/*seguidores.slice(seguidores.length-6, seguidores.length).map((itemAtual) => {
+        return (
+          <li key={itemAtual}>
+            <a href={`https://github.com/${itemAtual}.png`} >
+              <img src={itemAtual.image} />
+              <span>{itemAtual.title}</span>
+            </a>
+          </li>
+        )
+        })*/}
+    </ul>
+  </ProfileRelationsBoxWrapper>)
+}
+
 export default function Home() {
   const usuarioAleatorio = 'Dirceug';
-  const [comunidades, setComunidades] = React.useState([{
-        id: `325143654354321321321`,
-        title: 'Eu odeia acordar cedo',
-        image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
-  }]);
-  console.log(`Nosso teste`, comunidades);
+  const [comunidades, setComunidades] = React.useState([]);
+  //console.log(`Nosso teste`, comunidades);
   //const comunidades = ['Alurakut',];
   const pessoasFavoritas = [
-    'juunegreiros',
+    'marcobrunodev',
     'omariosouto', 
+    'juunegreiros',
     'peas', 
     'rafaballerini', 
-    'marcobrunodev',
     'felipefialho', 
     'guilhermesilveira',
   ]
+  const [seguidores, setSeguidores] = React.useState([]);
+  // o - Pegar o array de dados do GitHub  
+    React.useEffect(function () {
+      // GET
+      fetch('https://api.github.com/users/peas/followers')
+      .then(function (respostaDoServidor) {
+        return respostaDoServidor.json();      
+      })
+      .then(function (respostaCompleta) {
+        setSeguidores(respostaCompleta);
+      })
+
+      //API GraphQL
+      fetch(`https://graphql.datocms.com/`, {
+        method: `POST`,
+        headers: {
+          'Authorization': '15bf4926a3a0a90925f497d7ee8b5f',
+          'Content-Type': 'application/json', 
+          'Accept': 'application/json',
+        }, 
+        body: JSON.stringify({ "query": `query {
+          allCommunities {
+            title
+            id
+            imageUrl
+            creatorSlug
+          }
+        }` })
+      })
+      .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
+      .then((respostaCompleta) => {
+        const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
+        console.log(comunidadesVindasDoDato)
+        setComunidades(comunidadesVindasDoDato)
+      })
+    }, [])
+
+    console.log('seguidores antes do return', seguidores)
+
+  // 1 - Criar um box que vai ter um map baseado nos itens do array que pegamos do GitHub
 
   return (
     <>
-      <AlurakutMenu />
+      <AlurakutMenu githubUser={usuarioAleatorio}/>
       <MainGrid>
         <div className="profileArea" style={{ gridArea: 'profileArea'}}>
           <ProfileSideBar githubUser={usuarioAleatorio} />
@@ -69,13 +126,30 @@ export default function Home() {
               console.log(`Campos: `, dadosForm.get(`image`));
 
               const comunidade = {
-                id: new Date().toISOString(),
                 title: dadosForm.get(`title`),
-                image: dadosForm.get(`image`),                
+                imageUrl: dadosForm.get(`imagem`),
+                creatorSlug: usuarioAleatorio ,
+                //id: new Date().toISOString(),
+                //image: dadosForm.get(`image`),                
               }
-              const comunidadesAtualizadas = [...comunidades, comunidade ];
-              setComunidades(comunidadesAtualizadas)
-              console.log(comunidades)
+
+              fetch('/api/comunidades', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comunidade)
+              })
+              .then(async (response) => {
+                  const dados = response.json();
+                  console.log(dados.registroCriado);
+                  const comunidade = dados.registroCriado;
+                  const comunidadesAtualizadas = [...comunidades, comunidade ];
+                  setComunidades(comunidadesAtualizadas)
+                })
+
+
+              //console.log(comunidades)
             }}>
               <div>
               <input 
@@ -88,10 +162,11 @@ export default function Home() {
               </div>
               <div>
               <input 
-                placeholder="Coloque uma URL para usarmos de capa" 
+                placeholder="Coloque a URL de uma imagem, para usarmos de capa" 
                 name="image" 
-                area-aria-label="Coloque uma URL para usarmos de capa" />
+                area-aria-label="Coloque a URL de uma imagem, para usarmos de capa" />
               </div>
+              
               <button>
                 Criar comunidade
               </button>
@@ -99,6 +174,8 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>
+        <ProfileRelationsBox title="Seguidores no GitHub" itens={seguidores}/>
+
         <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
             Meus amigos ({pessoasFavoritas.length})
@@ -121,11 +198,12 @@ export default function Home() {
               Comunidades ({comunidades.length})
             </h2>
             <ul>
-              {comunidades.slice(comunidades.length-6, comunidades.length).map((itemAtual) => {
+              {comunidades.map((itemAtual) => {
+                console.log(itemAtual)
                     return (
                       <li key={itemAtual.id}>
-                        <a href={`/users/${itemAtual.title}`} key={itemAtual.title}>
-                          <img src={itemAtual.image} />
+                        <a href={`/communities/${itemAtual.id}`}>
+                          <img src={itemAtual.imageUrl} />
                           <span>{itemAtual.title}</span>
                         </a>
                       </li>
@@ -137,5 +215,5 @@ export default function Home() {
       </MainGrid>
     </>
   )
-
+/*.slice(comunidades.length-6, comunidades.length)*/
 }
