@@ -63,7 +63,7 @@ const usuario = {
   id: "Número únido de identificação (data de criação)",
   title: dadosForm.get(`title`),
   "descrição": dadosForm.get(`descricao`),//Descrição da comunidade
-  image: dadosForm.get(`image`),  
+  image: dadosForm.get(`imagem`),  
   idioma: dadosForm.get(`idioma`),
   categoria: dadosForm.get(`categoria`),
   date: new Date(),

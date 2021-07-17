@@ -7,7 +7,7 @@ export default async function recebedorDeRequests(request, response) {
     const client = new SiteClient(TOKEN);
   
     //Validar os dados antes de sair cadastrando
-    const registroCriado = await client.itens.create({
+    const registroCriado = await client.items.create({
       itemType: "968428", //ID do model de "Comunidades" criado pelo Dato
       ...request.body,
       //title: "Comunidade de Teste",

@@ -1,11 +1,13 @@
 import React from 'react';
-import MainGrid from '../src/components/MainGrid'
-import Box from '../src/components/Box'
-import {AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet} from '../src/lib/alurakutCommons'
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
+import MainGrid from '../src/components/MainGrid';
+import Box from '../src/components/Box';
+import {AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet} from '../src/lib/alurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
 function ProfileSideBar (propriedades) {
-  console.log(propriedades);
+  //console.log(propriedades);
   return(
   <Box as="aside">
     <img src={`https://github.com/${propriedades.githubUser}.png`} style= {{borderRadius: '8px'}}/>
@@ -44,8 +46,8 @@ function ProfileRelationsBox (propriedades) {
   </ProfileRelationsBoxWrapper>)
 }
 
-export default function Home() {
-  const usuarioAleatorio = 'Dirceug';
+export default function Home(props) {
+  const usuarioAleatorio = props.githubUser;
   const [comunidades, setComunidades] = React.useState([]);
   //console.log(`Nosso teste`, comunidades);
   //const comunidades = ['Alurakut',];
@@ -90,12 +92,12 @@ export default function Home() {
       .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
       .then((respostaCompleta) => {
         const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
-        console.log(comunidadesVindasDoDato)
+        //console.log(comunidadesVindasDoDato)
         setComunidades(comunidadesVindasDoDato)
       })
     }, [])
 
-    console.log('seguidores antes do return', seguidores)
+    //console.log('seguidores antes do return', seguidores)
 
   // 1 - Criar um box que vai ter um map baseado nos itens do array que pegamos do GitHub
 
@@ -122,8 +124,8 @@ export default function Home() {
               e.preventDefault();
               const dadosForm = new FormData(e.target);
 
-              console.log(`Campos: `, dadosForm.get(`Title`));
-              console.log(`Campos: `, dadosForm.get(`image`));
+              //console.log(`Campos: `, dadosForm.get(`Title`));
+              //console.log(`Campos: `, dadosForm.get(`image`));
 
               const comunidade = {
                 title: dadosForm.get(`title`),
@@ -141,8 +143,8 @@ export default function Home() {
                 body: JSON.stringify(comunidade)
               })
               .then(async (response) => {
-                  const dados = response.json();
-                  console.log(dados.registroCriado);
+                  const dados = await response.json();
+                  //console.log(dados.registroCriado);
                   const comunidade = dados.registroCriado;
                   const comunidadesAtualizadas = [...comunidades, comunidade ];
                   setComunidades(comunidadesAtualizadas)
@@ -163,7 +165,7 @@ export default function Home() {
               <div>
               <input 
                 placeholder="Coloque a URL de uma imagem, para usarmos de capa" 
-                name="image" 
+                name="imagem" 
                 area-aria-label="Coloque a URL de uma imagem, para usarmos de capa" />
               </div>
               
@@ -199,7 +201,7 @@ export default function Home() {
             </h2>
             <ul>
               {comunidades.map((itemAtual) => {
-                console.log(itemAtual)
+                //console.log(itemAtual)
                     return (
                       <li key={itemAtual.id}>
                         <a href={`/communities/${itemAtual.id}`}>
@@ -216,4 +218,37 @@ export default function Home() {
     </>
   )
 /*.slice(comunidades.length-6, comunidades.length)*/
+}
+
+export async function getServerSideProps (context) {
+  const cookies = nookies.get(context)
+  const token = cookies.USER_TOKEN;
+  const { isAuthenticated } = await fetch ('https://alurakut.vercel.app/api/auth', {
+    headers: {
+      Authorization: token
+    }
+  })
+  .then((resposta) => resposta.json())
+  /*.then((resultado) => {
+    console.log(resultado)
+  })*/
+
+  console.log (`isAuthenticated`, isAuthenticated)
+
+  if (!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+
+
+  const { githubUser } = jwt.decode(token);
+  return {
+    props: {
+      githubUser
+    }, //will be passed to the page component as props
+  }
 }
