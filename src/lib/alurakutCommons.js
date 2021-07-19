@@ -28,7 +28,7 @@ export function AlurakutMenu({ githubUser }) {
       <div className="container">
         <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
         <nav style={{ flex: 1 }}>
-          {[{ name: 'Inicio', slug: '/'}, {name: 'Amigos', slug: '/amigos'}, {name: 'Comunidades', slug: '/comunidades'}].map((menuItem) => (
+          {[{ name: 'Inicio', slug: '/'}, {name: 'Amigos', slug: '/amigos'}, {name: 'Comunidades', slug: '/Comunidade'}].map((menuItem) => (
             <Link key={`key__${menuItem.name.toLocaleLowerCase()}`} href={`${menuItem.slug.toLocaleLowerCase()}`}>
               {menuItem.name}
             </Link>
@@ -75,6 +75,10 @@ AlurakutMenu.Wrapper = styled.header`
     > div {
       max-width: 400px;
       margin: auto;
+    }
+    .buttons {
+      display: grid;
+      grid-area: 1fr 1fr 1fr;
     }
     .descritionA {
       position: absolute;
@@ -142,6 +146,7 @@ AlurakutMenu.Wrapper = styled.header`
       background: transparent;
       align-self: center;
       display: inline-block;
+
       @media(min-width: 860px) {
         display: none;
       }
@@ -517,14 +522,20 @@ export const AlurakutStyles = css`
     cursor: pointer;
     transition: .3s;
     outline: 0;
-    &:hover,
+    &:hover, 
     &:focus {
       opacity: .8;
+      //color: #555;
+      background-size: 120%;
     }
     &:disabled {
       cursor: not-allowed;
       opacity: .5;
     }
+  }
+  .atividade{
+    margin: 5px;
+
   }
   input {
     transition: .3s;

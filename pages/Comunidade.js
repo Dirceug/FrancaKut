@@ -62,7 +62,7 @@ import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 function ComunitySideBar(propriedades) { //Função que exporta o box de imagem e descrição "ComunitySideBar"
   return (
     <Box as="aside">
-      <img src={`https://github.com/${propriedades.comunity.image}.png`} style={{ borderRadius: `8px`}} />
+      <img src={`https://alurakut.vercel.app/capa-comunidade-01.jpg`} style={{ borderRadius: `8px`}} />
       <hr />
       
       <p>

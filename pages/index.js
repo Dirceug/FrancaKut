@@ -60,6 +60,16 @@ export default function Home(props) {
     'felipefialho', 
     'guilhermesilveira',
   ]
+    //const comunidades = ['Alurakut',];
+    const githubUsers = [
+      'juunegreiros',
+      'peas', 
+      'rafaballerini', 
+      'omariosouto', 
+      'marcobrunodev',
+      'felipefialho', 
+      'guilhermesilveira',
+    ]
   const [seguidores, setSeguidores] = React.useState([]);
   // o - Pegar o array de dados do GitHub  
     React.useEffect(function () {
@@ -120,6 +130,8 @@ export default function Home(props) {
           </Box>
           <Box>
             <h2 className="subTitle" >O que você deseja fazer?</h2>
+
+              <br></br>
             <form onSubmit={function handleCriaComunidade(e){
               e.preventDefault();
               const dadosForm = new FormData(e.target);
@@ -180,15 +192,33 @@ export default function Home(props) {
                 name="imagem" 
                 area-aria-label="Coloque a URL de uma imagem, para usarmos de capa" />
               </div>
+              <br></br>
+              <div className="buttons">
+                <button className="atividade">
+                  Criar uma comunidade
+                </button>
+                <button className="atividade">
+                  Escrever um depoimento
+                </button>
+                <button className="atividade">
+                  Fazer um post
+                </button>
+              </div>
               
-              <button>
-                Criar comunidade
-              </button>
+
             </form>
+          </Box>
+          <Box>
+            <h1 className="title">
+              Fotos
+            </h1>
+
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>
         <ProfileRelationsBox title="Seguidores no GitHub" itens={seguidores}/>
+
+        
 
         <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
@@ -209,7 +239,8 @@ export default function Home(props) {
           </ProfileRelationsBoxWrapper>
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
-              Comunidades ({comunidades.length})
+              <a href="/comunidade ">Comunidades({comunidades.length})</a>
+
             </h2>
             <ul>
               {comunidades.map((itemAtual) => {
@@ -223,6 +254,23 @@ export default function Home(props) {
                       </li>
                     )
                     })}
+            </ul>
+          </ProfileRelationsBoxWrapper>
+          <ProfileRelationsBoxWrapper>
+            <h2 className="smallTitle">
+            Seguidores no Git Hub ({githubUsers.length})
+            </h2>
+            <ul>
+              {githubUsers.slice(githubUsers.length-6, githubUsers.length).map((itemAtual) => {
+                return (
+                  <li key={itemAtual}>
+                    <a href={`/users/${itemAtual}`} >
+                      <img src={`https://github.com/${itemAtual}.png`} />
+                      <span>{itemAtual}</span>
+                    </a>
+                  </li>
+                )
+                })}
             </ul>
           </ProfileRelationsBoxWrapper>
         </div>
