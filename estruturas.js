@@ -62,16 +62,17 @@ const usuario = {
   url: "Endereço auto gerado da comunidade",
   id: "Número únido de identificação (data de criação)",
   title: dadosForm.get(`title`),
-  "descrição": dadosForm.get(`descricao`),//Descrição da comunidade
+  descrition: dadosForm.get(`descricao`),//Descrição da comunidade
   image: dadosForm.get(`imagem`),  
   idioma: dadosForm.get(`idioma`),
   categoria: dadosForm.get(`categoria`),
   date: new Date(),
   administrador: usuarioAleatorio,
   moderadores: [],
-  membros: [],
-  "numero de membros": 1,
+  membros: [],, 
+  members: 1,
   foruns: [],
+  arquivo: 'em uso', //Caso estaja deletada, comunidade não aparce mais para membros
 }
 
 //ESTRUTURA PARA CRIAÇÃO DE COMUNIDADES:
@@ -79,7 +80,7 @@ const comunidade = {
   url: dadosForm.get(`url`),
   id: new Date().toISOString(),
   title: dadosForm.get(`title`),
-  "descrição": dadosForm.get(`descricao`),//Descrição da comunidade
+  descrition: dadosForm.get(`descricao`),//Descrição da comunidade
   image: dadosForm.get(`image`),  
   idioma: dadosForm.get(`idioma`),
   categoria: dadosForm.get(`categoria`),
@@ -87,10 +88,46 @@ const comunidade = {
   administrador: usuarioAleatorio,
   moderadores: [],
   membros: [],
-  "numero de membros": 1,
+  members: 1,
   foruns: [],
 }
 
+
+//Exemplo
+const comunity = {
+  name: 'Eu odeio acordar cedo',
+  image: 'peas',
+  url: "Endereço auto gerado da comunidade",
+  id: "537435436543654",
+  title: "Comunidades destinada a pessoas que odeiam acordar cedo",
+  descrition: "Nós que odiamos acordar cedo no reunimos virtualmente aqui (nunca antes do meio dia)",
+  idioma: "Português",
+  categoria: "Pública",
+  privacidade: "Aberta para não membros",
+  date: "17/07/2020",
+  administrador: "Dirceug",
+  moderadores: [
+    'marcobrunodev',
+    'omariosouto', 
+    'juunegreiros',
+    'peas', 
+    'rafaballerini', 
+    'felipefialho', 
+    'guilhermesilveira',
+  ],
+  membros: [
+    'marcobrunodev',
+    'omariosouto', 
+    'juunegreiros',
+    'peas', 
+    'rafaballerini', 
+    'felipefialho', 
+    'guilhermesilveira',
+  ],
+  members: 7,
+  foruns: [],
+  arquivo: 'em uso',
+}
 const comunidade = {
   url: dadosForm.get(`url`),
   id: new Date().toISOString(),

@@ -128,11 +128,23 @@ export default function Home(props) {
               //console.log(`Campos: `, dadosForm.get(`image`));
 
               const comunidade = {
-                title: dadosForm.get(`title`),
                 imageUrl: dadosForm.get(`imagem`),
                 creatorSlug: usuarioAleatorio ,
                 //id: new Date().toISOString(),
-                //image: dadosForm.get(`image`),                
+                //image: dadosForm.get(`image`),   
+                url: dadosForm.get(`url`),
+                id: new Date().toISOString(),
+                title: dadosForm.get(`title`),
+                "descrição": dadosForm.get(`descricao`),//Descrição da comunidade
+                image: dadosForm.get(`image`),  
+                idioma: dadosForm.get(`idioma`),
+                categoria: dadosForm.get(`categoria`),
+                date: new Date(),
+                administrador: usuarioAleatorio,
+                moderadores: [],
+                membros: [],
+                "numero de membros": 1,
+                foruns: [],             
               }
 
               fetch('/api/comunidades', {
@@ -201,10 +213,10 @@ export default function Home(props) {
             </h2>
             <ul>
               {comunidades.map((itemAtual) => {
-                //console.log(itemAtual)
+                console.log(itemAtual)
                     return (
                       <li key={itemAtual.id}>
-                        <a href={`/communities/${itemAtual.id}`}>
+                        <a href={`/Comunidade`}>
                           <img src={itemAtual.imageUrl} />
                           <span>{itemAtual.title}</span>
                         </a>

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import NextLink from 'next/link';
+import francakut from '../Images/Francakut.png';
 
 const BASE_URL = 'http://alurakut.vercel.app/';
 const v = '2';
@@ -17,15 +18,15 @@ function Link({ href, children, ...props }) {
 }
 
 // ================================================================================================================
-// Menu
+// Menu         <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
 // ================================================================================================================
 export function AlurakutMenu({ githubUser }) {
   const [isMenuOpen, setMenuState] = React.useState(false);
+  const logo = francakut;
   return (
     <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
       <div className="container">
         <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
-
         <nav style={{ flex: 1 }}>
           {[{ name: 'Inicio', slug: '/'}, {name: 'Amigos', slug: '/amigos'}, {name: 'Comunidades', slug: '/comunidades'}].map((menuItem) => (
             <Link key={`key__${menuItem.name.toLocaleLowerCase()}`} href={`${menuItem.slug.toLocaleLowerCase()}`}>
@@ -75,12 +76,44 @@ AlurakutMenu.Wrapper = styled.header`
       max-width: 400px;
       margin: auto;
     }
+    .descritionA {
+      position: absolute;
+      width: 572px;
+      height: 38px;
+      left: 0px;
+      top: 0px;
+      color: #D9E6F6;
+      //background-color: #D9E6F6;
+    }
+    .descritionB {
+      position: absolute;
+      width: 572px;
+      height: 38px;
+      left: 0px;
+      top: 0px;
+      color: #F1F9FE;
+      //background-color: #F1F9FE;
+    }
     a {
       font-size: 18px;
     }
     .boxLink {
       font-size: 18px;
       color: #2E7BB4;
+      -webkit-text-decoration: none;
+      text-decoration: none;
+      font-weight: 800;
+    }
+    .discreto {
+      font-size: 8px;
+      color: #999999;
+      -webkit-text-decoration: none;
+      text-decoration: none;
+      font-weight: 400;
+    }
+    .status {
+      font-size: 16px;
+      color: #64c37d;
       -webkit-text-decoration: none;
       text-decoration: none;
       font-weight: 800;

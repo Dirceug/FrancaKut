@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
+
   }
 
   body {
@@ -28,6 +28,29 @@ const GlobalStyle = createGlobalStyle`
     height: auto;
     display: block;
   }
+
+  > div {
+      max-width: 400px;
+      margin: auto;
+    }
+    .descritionA {
+      position: absolute;
+      width: 572px;
+      height: 38px;
+      left: 0px;
+      top: 0px;
+      color: #D9E6F6;
+      //background-color: #D9E6F6;
+    }
+    .descritionB {
+      position: absolute;
+      width: 572px;
+      height: 38px;
+      left: 0px;
+      top: 0px;
+      color: #F1F9FE;
+      //background-color: #F1F9FE;
+    }
 
   ${AlurakutStyles}
 `
